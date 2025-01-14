@@ -22,6 +22,41 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
       ),
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(21),
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 253,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(19),
+                    image: const DecorationImage(
+                      image: NetworkImage("https://img.freepik.com/premium-photo/interior-furniture-store-with-variety-options-display_997534-26490.jpg"),
+                      fit: BoxFit.cover,
+                    )
+                ),
+                child: const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      "New Year's Sale",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 3
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+      ),
     );
   }
 }
