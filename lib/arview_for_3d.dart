@@ -13,7 +13,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vectorMath64;
 
 class ArViewFor3dObjects extends StatefulWidget {
-  const ArViewFor3dObjects({super.key});
+  final String name;
+  final String model3dURl;
+
+  ArViewFor3dObjects({super.key, required this.name, required this.model3dURl});
 
   @override
   State<ArViewFor3dObjects> createState() => _ArViewFor3dObjectsState();
