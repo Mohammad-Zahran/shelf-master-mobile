@@ -23,6 +23,73 @@ class ArViewFor3dObjects extends StatefulWidget {
 }
 
 class _ArViewFor3dObjectsState extends State<ArViewFor3dObjects> {
+  ARSessionManager? sessionManagerAR;
+  ARObjectManager? objectManagerAR;
+  ARAnchorManager? anchorManagerAR;
+  List<ARNode> allNodesList = [];
+  List<ARAnchor> allAnchors = [];
+
+  void createARView(
+      ARSessionManager arSessionManager,
+      ARObjectManager arObjectManager,
+      ARAnchorManager arAnchorManager,
+      ARLocationManager locationManagerAR)
+  {
+    sessionManagerAR = arSessionManager;
+    objectManagerAR = arObjectManager;
+    anchorManagerAR = arAnchorManager;
+
+    sessionManagerAR!.onInitialize(
+      handleRotation: true,
+      handlePans: true,
+      showWorldOrigin: true,
+      showFeaturePoints: false,
+      showPlanes: true,
+    );
+    objectManagerAR!.onInitialize();
+
+    sessionManagerAR!.onPlaneOrPointTap = detectPlaneAndLetUserTap;
+    objectManagerAR!.onPanStart = duringOnPanStarted;
+    objectManagerAR!.onPanChange = duringOnPanChanged;
+    objectManagerAR!.onPanEnd = duringOnPanEnded;
+    objectManagerAR!.onRotationStart = duringOnRotationStarted;
+    objectManagerAR!.onRotationChange = duringOnRotationChanged;
+    objectManagerAR!.onRotationEnd = duringRotationEnded;
+  }
+
+  duringOnPanStarted(String object3dNodeName)
+  {
+    print("Panning Node Started = " + object3dNodeName);
+  }
+
+  duringOnPanChanged(String object3dNodeName)
+  {
+    print("Panning Node Started = " + object3dNodeName);
+  }
+
+  duringOnPanEnded(String object3dNodeName, Matrix4 transfromMatrix)
+  {
+    print("Panning Node Started = " + object3dNodeName);
+
+    final pannedNode = allNodesList.firstWhere((node) => node.name == object3dNodeName);
+  }
+
+  duringOnRotationStarted(String object3dNodeName)
+  {
+    print("Panning Node Started = " + object3dNodeName);
+  }
+
+  duringOnRotationChanged(String object3dNodeName)
+  {
+    print("Panning Node Started = " + object3dNodeName);
+  }
+
+  duringRotationEnded(String object3dNodeName, Matrix4 transfromMatrix)
+  {
+    print("Panning Node Started = " + object3dNodeName);
+    final pannedNode = allNodesList.firstWhere((node) => node.name == object3dNodeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
