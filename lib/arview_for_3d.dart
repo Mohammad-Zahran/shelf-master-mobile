@@ -90,8 +90,56 @@ class _ArViewFor3dObjectsState extends State<ArViewFor3dObjects> {
     final pannedNode = allNodesList.firstWhere((node) => node.name == object3dNodeName);
   }
 
+  Future<void> detectPlaneAndLetUserTap(List<ARHitTestResult> hitTapResultsList) async {
+    try {
+      var userHitTapResults = hitTapResultsList.firstWhere(
+              (ARHitTestResult userHitPoint) => userHitPoint.type == ARHitTestResultType.plane);
+
+      var planeARAnchor = ARPlaneAnchor(transformation: userHitTapResults.worldTransform);
+
+      bool? anchorAdded = await anchorManagerAR!.addAnchor(planeARAnchor);
+
+      if (anchorAdded!) {
+        allAnchors.add(planeARAnchor);
+
+        var object3DNewNode = ARNode(
+          type: NodeType.webGLB,
+          uri: widget.model3dURl,
+          scale: vectorMath64.Vector3(0.62, 0.62, 0.62),
+          position: vectorMath64.Vector3(0, 0, 0),
+          rotation: vectorMath64.Vector4(1, 0, 0, 0),
+        );
+
+        bool? addARNodeToAnchor =
+        await objectManagerAR!.addNode(object3DNewNode, planeAnchor: planeARAnchor);
+        if (addARNodeToAnchor!) {
+          allNodesList.add(object3DNewNode);
+        } else {
+          sessionManagerAR!.onError("Node to Anchor attachment Failed");
+        }
+      } else {
+        sessionManagerAR!.onError("Failed: Anchor cannot be added");
+      }
+    } catch (e) {
+      sessionManagerAR!.onError("No valid plane found on tap");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${widget.name} 3D Model'),
+        centerTitle: true,
+      ),
+      body: Stack(
+        children: [
+          ARView(
+            planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
+            onARViewCreated: createARView,
+          )
+        ],
+      ),
+    );
   }
 }
