@@ -11,7 +11,7 @@ class DioService {
   DioService._internal() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: "http://192.168.1.2:8080", // Replace with your API base URL
+        baseUrl: "http://192.168.1.2:8000",
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
         headers: {
